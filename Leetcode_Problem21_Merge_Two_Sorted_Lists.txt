@@ -1,0 +1,152 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+struct ListNode *insert(struct ListNode *head, int data)
+{
+    struct ListNode *node = (struct ListNode *)malloc(sizeof(struct ListNode));
+    node->val = data;
+    node->next = NULL;
+    struct ListNode *ptr = head;
+    while (ptr->next != NULL)
+    {
+        ptr = ptr->next;
+    }
+    ptr->next = node;
+    ptr = NULL;
+    free(ptr);
+    return head;
+}
+
+struct ListNode *mergeTwoLists(struct ListNode *list1, struct ListNode *list2)
+{
+    if((list1 == NULL) && (list2 == NULL))
+        return list1;
+    else if(list2 == NULL)
+        return list1;
+    else if(list1 == NULL)
+        return list2;        
+    
+    struct ListNode* answer_list = (struct ListNode*)malloc(sizeof(struct ListNode));
+    struct ListNode* list1_ptr = list1;
+    struct ListNode* list2_ptr = list2;
+    answer_list->next = NULL;
+    if (list1_ptr->val <= list2_ptr->val)
+    {
+        answer_list->val = list1_ptr->val;
+        list1_ptr = list1_ptr->next;
+    }
+    else
+    {
+        answer_list->val = list2_ptr->val;
+        list2_ptr = list2_ptr->next;
+    }
+    while ((list1_ptr != NULL) && (list2_ptr != NULL))
+    {
+        if (list1_ptr->val <= list2_ptr->val)
+        {
+            answer_list = insert(answer_list, list1_ptr->val);
+            list1_ptr = list1_ptr->next;
+        }
+        else
+        {
+            answer_list = insert(answer_list, list2_ptr->val);
+            list2_ptr = list2_ptr->next;
+        }
+    }
+    if (list2_ptr != NULL)
+    {
+        while (list2_ptr != NULL)
+        {
+            answer_list = insert(answer_list, list2_ptr->val);
+            list2_ptr = list2_ptr->next;
+        }
+    }
+    if (list1_ptr != NULL)
+    {
+        while (list1_ptr != NULL)
+        {
+            answer_list = insert(answer_list, list1_ptr->val);
+            list1_ptr = list1_ptr->next;
+        }
+    }
+    return answer_list;
+}
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------
+
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+struct ListNode *mergeTwoLists(struct ListNode *list1, struct ListNode *list2)
+{
+    if((list1 == NULL) && (list2 == NULL))
+        return list1;
+    else if(list2 == NULL)
+        return list1;
+    else if(list1 == NULL)
+        return list2;        
+    
+    struct ListNode* answer_list = NULL ;
+    struct ListNode* answer_ptr ;
+
+    while ((list1 != NULL) && (list2 != NULL))
+    {
+        struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
+        node->next = NULL;
+        if (list1->val <= list2->val)
+        {
+            node->val = list1->val;
+            list1 = list1->next;
+        }
+        else
+        {
+            node->val = list2->val;
+            list2 = list2->next;
+        }
+        if(answer_list == NULL)
+        {
+            answer_list = node;
+            answer_ptr = answer_list;
+        }   
+        else
+        {
+            answer_ptr->next = node;
+            answer_ptr = answer_ptr->next;
+        }
+    }
+    while (list2 != NULL)
+    {
+        struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
+        node->next = NULL;
+        node->val = list2->val;
+        list2 = list2->next;
+        answer_ptr->next=node;
+        answer_ptr = answer_ptr->next;
+    } 
+    while (list1 != NULL)
+    {
+        struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
+        node->next = NULL;
+        node->val = list1->val;
+        list1 = list1->next;
+        answer_ptr->next=node;
+        answer_ptr = answer_ptr->next;
+    }
+    return answer_list;
+}
